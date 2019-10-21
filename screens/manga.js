@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Text, View, ScrollView} from 'react-native';
+import React, { Component } from "react";
+import { Text, View, ScrollView } from "react-native";
 import {
   getTopMangas,
   getTopNovels,
@@ -9,10 +9,10 @@ import {
   getMangaData,
   getMangaCharacters,
   getMangaRecommendations,
-  getMangaReviews,
-} from '../service/mangaService';
-import HorizontalScroll from '../components/horizontalScroll';
-import {Style} from '../styles/mangaStyle';
+  getMangaReviews
+} from "../service/mangaService";
+import HorizontalScroll from "../components/horizontalScroll";
+import { Style } from "../styles/mangaStyle";
 
 class Manga extends Component {
   state = {
@@ -20,12 +20,11 @@ class Manga extends Component {
     topNovels: [],
     topOneShots: [],
     topDoujin: [],
-    topManhwa: [],
-    currentScreen: 'manga',
+    topManhwa: []
   };
 
   static navigationOptions = {
-    header: null,
+    header: null
   };
 
   async componentDidMount() {
@@ -39,30 +38,12 @@ class Manga extends Component {
       topNovels,
       topOneShots,
       topDoujin,
-      topManhwa,
+      topManhwa
     });
   }
 
   handleClick = async itemId => {
-    const dataPromise = getMangaData(itemId);
-    const charactersPromise = getMangaCharacters(itemId);
-    const recommendationsPromise = getMangaRecommendations(itemId);
-    const reviewPromise = getMangaReviews(itemId);
-
-    const [data, characters, recommendations, reviews] = await Promise.all([
-      dataPromise,
-      charactersPromise,
-      recommendationsPromise,
-      reviewPromise,
-    ]);
-
-    this.props.navigation.navigate('Description', {
-      data: data,
-      characters: characters,
-      recommendations: recommendations,
-      reviews: reviews,
-      previousScreen: this.state.currentScreen,
-    });
+    this.props.navigation.navigate("mangaDetail", { id: itemId });
   };
 
   render() {
@@ -71,7 +52,7 @@ class Manga extends Component {
       topNovels,
       topOneShots,
       topDoujin,
-      topManhwa,
+      topManhwa
     } = this.state;
 
     return (
@@ -80,27 +61,32 @@ class Manga extends Component {
           <Text style={Style.heading}>Top Mangas</Text>
           <HorizontalScroll
             onClick={this.handleClick}
-            data={topMangas}></HorizontalScroll>
+            data={topMangas}
+          ></HorizontalScroll>
 
           <Text style={Style.heading}>Top Novels</Text>
           <HorizontalScroll
             onClick={this.handleClick}
-            data={topNovels}></HorizontalScroll>
+            data={topNovels}
+          ></HorizontalScroll>
 
           <Text style={Style.heading}>Top OneShots</Text>
           <HorizontalScroll
             onClick={this.handleClick}
-            data={topOneShots}></HorizontalScroll>
+            data={topOneShots}
+          ></HorizontalScroll>
 
           <Text style={Style.heading}>Top Doujin</Text>
           <HorizontalScroll
             onClick={this.handleClick}
-            data={topDoujin}></HorizontalScroll>
+            data={topDoujin}
+          ></HorizontalScroll>
 
           <Text style={Style.heading}>Top Manhwa</Text>
           <HorizontalScroll
             onClick={this.handleClick}
-            data={topManhwa}></HorizontalScroll>
+            data={topManhwa}
+          ></HorizontalScroll>
         </ScrollView>
       </View>
     );

@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Text, View, ScrollView} from 'react-native';
+import React, { Component } from "react";
+import { Text, View, ScrollView } from "react-native";
 import {
   getTopAiringAnimes,
   getTopUpcomingAnimes,
@@ -9,10 +9,10 @@ import {
   getAnimeData,
   getAnimeCharacters,
   getAnimeRecommendations,
-  getAnimeReviews,
-} from '../service/animeService';
-import HorizontalScroll from '../components/horizontalScroll';
-import {Style} from '../styles/animeStyle';
+  getAnimeReviews
+} from "../service/animeService";
+import HorizontalScroll from "../components/horizontalScroll";
+import { Style } from "../styles/animeStyle";
 
 class Anime extends Component {
   state = {
@@ -21,11 +21,11 @@ class Anime extends Component {
     topAnimeMovies: [],
     topSpecials: [],
     topTv: [],
-    currentScreen: 'anime',
+    currentScreen: "anime"
   };
 
   static navigationOptions = {
-    header: null,
+    header: null
   };
 
   async componentDidMount() {
@@ -40,7 +40,7 @@ class Anime extends Component {
       topAiringAnimes,
       topAnimeMovies,
       topSpecials,
-      topTv,
+      topTv
     });
   }
 
@@ -49,26 +49,7 @@ class Anime extends Component {
   };
 
   handleClick = async itemId => {
-    const dataPromise = getAnimeData(itemId);
-    const charactersPromise = getAnimeCharacters(itemId);
-    const recommendationsPromise = getAnimeRecommendations(itemId);
-    const reviewsPromise = getAnimeReviews(itemId);
-
-    const [data, characters, recommendations, reviews] = await Promise.all([
-      dataPromise,
-      charactersPromise,
-      recommendationsPromise,
-      reviewsPromise,
-    ]);
-
-    this.props.navigation.navigate('Description', {
-      data: data,
-      characters: characters,
-      recommendations: recommendations,
-      reviews: reviews,
-      handleUpdate: this.handleUpdate,
-      previousScreen: this.state.currentScreen,
-    });
+    this.props.navigation.navigate("animeDetail", { id: itemId });
   };
 
   render() {
@@ -77,7 +58,7 @@ class Anime extends Component {
       topAiringAnimes,
       topAnimeMovies,
       topSpecials,
-      topTv,
+      topTv
     } = this.state;
     return (
       <View style={Style.animeContainer}>
@@ -85,27 +66,32 @@ class Anime extends Component {
           <Text style={Style.heading}>Top Upcoming</Text>
           <HorizontalScroll
             onClick={this.handleClick}
-            data={topUpcomingAnimes}></HorizontalScroll>
+            data={topUpcomingAnimes}
+          ></HorizontalScroll>
 
           <Text style={Style.heading}>Top Airing</Text>
           <HorizontalScroll
             onClick={this.handleClick}
-            data={topAiringAnimes}></HorizontalScroll>
+            data={topAiringAnimes}
+          ></HorizontalScroll>
 
           <Text style={Style.heading}>Top Anime Movies</Text>
           <HorizontalScroll
             onClick={this.handleClick}
-            data={topAnimeMovies}></HorizontalScroll>
+            data={topAnimeMovies}
+          ></HorizontalScroll>
 
           <Text style={Style.heading}>Top Specials</Text>
           <HorizontalScroll
             onClick={this.handleClick}
-            data={topSpecials}></HorizontalScroll>
+            data={topSpecials}
+          ></HorizontalScroll>
 
           <Text style={Style.heading}>Top Tv</Text>
           <HorizontalScroll
             onClick={this.handleClick}
-            data={topTv}></HorizontalScroll>
+            data={topTv}
+          ></HorizontalScroll>
         </ScrollView>
       </View>
     );
